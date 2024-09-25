@@ -16,9 +16,21 @@ class _ProfilepicState extends State<Profilepic> {
       ),
       body: Column(
         children: [
-          const CircleAvatar(
-            radius: 100, // Adjust the size if needed
-            backgroundImage: NetworkImage("https://i.pinimg.com/originals/14/72/82/1472823b3b6ed569cd5050c6a127e919.jpg"),
+          CircleAvatar(
+            radius: 100,
+            backgroundColor: Colors.grey[200],
+            child: ClipOval(
+              child: Image.network(
+                "https://lh3.googleusercontent.com/a/AAcHTte2xNkiJciavf50Fn5qA1518vFeWHYEnA-sR2pRZmi7nd0=s96-c",
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset(
+                    'assets/default_profile_pic.png', // Fallback image from assets
+                    fit: BoxFit.cover,
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),
