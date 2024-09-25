@@ -18,15 +18,29 @@ class _ProfilepicState extends State<Profilepic> {
         children: [
           CircleAvatar(
             radius: 100,
-            backgroundColor: Colors.grey[200],
+            backgroundColor: Colors.grey[200], // Background color when image is loading
             child: ClipOval(
               child: Image.network(
                 "https://lh3.googleusercontent.com/a/AAcHTte2xNkiJciavf50Fn5qA1518vFeWHYEnA-sR2pRZmi7nd0=s96-c",
                 fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                            : null,
+                      ),
+                    );
+                  }
+                },
                 errorBuilder: (context, error, stackTrace) {
-                  return Image.asset(
-                    'assets/default_profile_pic.png', // Fallback image from assets
-                    fit: BoxFit.cover,
+                  return Icon(
+                    Icons.error,
+                    size: 50,
+                    color: Colors.red,
                   );
                 },
               ),
